@@ -1,0 +1,78 @@
+-- Crear la base de datos
+CREATE DATABASE clinica_medica
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_general_ci;
+
+-- Seleccionar la base de datos para usarla
+USE clinica_medica;
+
+-- Creacion Tabla Pacientes
+CREATE TABLE pacientes (
+    id_paciente INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    dni VARCHAR(20) NOT NULL UNIQUE,
+    telefono VARCHAR(20),
+    correo VARCHAR(100),
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Creacion Tabla Medicos
+CREATE TABLE medicos (
+    id_medico INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(100),
+    especialidad VARCHAR(100) NOT NULL,
+    matricula VARCHAR(50) NOT NULL UNIQUE,
+    telefono VARCHAR(20),
+    horario_atencion VARCHAR(255)
+);
+
+-- Creacion Tabla Usuarios
+CREATE TABLE usuarios (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_usuario VARCHAR(50) NOT NULL UNIQUE,
+    contrasena VARCHAR(255) NOT NULL,
+    rol ENUM('administrador', 'medico', 'administrativo') NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Creacion Tabla Estado Turnos
+CREATE TABLE estado_turno (
+    id_estado_turno INT NOT NULL AUTO_INCREMENT,
+    descripcion VARCHAR(50) NOT NULL UNIQUE,
+    PRIMARY KEY (id_estado_turno)
+);
+
+-- Creacion Tabla Estado Notificacion
+CREATE TABLE estado_notificacion (
+    id_estado_notificacion INT NOT NULL AUTO_INCREMENT,
+    descripcion VARCHAR(50) NOT NULL UNIQUE,
+    PRIMARY KEY (id_estado_notificacion)
+);
+
+-- Creacion Tabla Turnos
+CREATE TABLE turnos (
+    id_turno INT NOT NULL AUTO_INCREMENT,
+    id_paciente INT NOT NULL,
+    id_medico INT NOT NULL,
+    fecha_turno DATE NOT NULL,
+    hora_turno TIME NOT NULL,
+    id_estado_turno INT NOT NULL DEFAULT 1,
+    PRIMARY KEY (id_turno),
+    FOREIGN KEY (id_paciente) REFERENCES pacientes(id_paciente),
+    FOREIGN KEY (id_medico) REFERENCES medicos(id_medico),
+    FOREIGN KEY (id_estado_turno) REFERENCES estado_turno(id_estado_turno)
+);
+
+-- Creacion Tabla Notificacion
+CREATE TABLE notificaciones (
+    id_notificacion INT NOT NULL AUTO_INCREMENT,
+    id_turno INT NOT NULL,
+    mensaje TEXT NOT NULL,
+    canal ENUM('Mensajeria') NOT NULL DEFAULT 'Mensajeria',
+    fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_estado_notificacion INT NOT NULL DEFAULT 1,
+    PRIMARY KEY (id_notificacion),
+    FOREIGN KEY (id_turno) REFERENCES turnos(id_turno),
+    FOREIGN KEY (id_estado_notificacion) REFERENCES estado_notificacion(id_estado_notificacion)
+);
