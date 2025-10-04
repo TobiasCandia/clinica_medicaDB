@@ -1,0 +1,24 @@
+-- Borrado Tablas en Orden
+-- Borrado Tabla Notificaciones
+DELETE FROM notificaciones;
+
+-- Borrado Tabla Turnos
+DELETE FROM turnos;
+
+-- Borrado Tabla Medico, Pacientes y Usuarios
+DELETE FROM pacientes;
+DELETE FROM medicos;
+DELETE FROM usuarios;
+
+-- Borrado Tabla Estados Notificacion y Turno
+DELETE FROM estado_notificacion;
+DELETE FROM estado_turno;
+
+-- Consultas para la verificación de que quedaron vacías
+SELECT * FROM notificaciones;
+SELECT * FROM turnos;
+SELECT * FROM pacientes;
+SELECT * FROM medicos;
+SELECT * FROM usuarios;
+SELECT * FROM estado_notificacion;
+SELECT * FROM estado_turno;
