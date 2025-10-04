@@ -1,0 +1,39 @@
+-- Consulta de todos los datos de un Turno
+SELECT 
+    p.nombre AS 'Paciente',
+    p.dni AS 'DNI',
+    m.nombre AS 'Médico',
+    m.especialidad AS 'Especialidad',
+    t.fecha_turno AS 'Fecha Turno',
+    t.hora_turno AS 'Hora Turno',
+    et.descripcion AS 'Estado Turno'
+FROM 
+    turnos t,
+    pacientes p,
+    medicos m,
+    estado_turno et
+WHERE 
+    t.id_paciente = p.id_paciente
+    AND t.id_medico = m.id_medico
+    AND t.id_estado_turno = et.id_estado_turno;
+
+-- Consulta de todos los datos de una Notificacion
+SELECT 
+    p.nombre AS 'Paciente',
+    m.nombre AS 'Médico',
+    t.fecha_turno AS 'Fecha Turno',
+    t.hora_turno AS 'Hora Turno',
+    n.mensaje AS 'Mensaje',
+    n.canal AS 'Canal',
+    en.descripcion AS 'Estado Notificación'
+FROM 
+    notificaciones n,
+    turnos t,
+    pacientes p,
+    medicos m,
+    estado_notificacion en
+WHERE 
+    n.id_turno = t.id_turno
+    AND t.id_paciente = p.id_paciente
+    AND t.id_medico = m.id_medico
+    AND n.id_estado_notificacion = en.id_estado_notificacion;
